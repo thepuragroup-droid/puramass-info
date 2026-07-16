@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProtocolArticle } from "@/components/ProtocolArticle";
-import { getProtocol, protocolSlugs } from "@/lib/protocols";
+import { getBlendProtocol, blendProtocolSlugs } from "@/lib/blendProtocols";
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return protocolSlugs.map((slug) => ({ slug }));
+  return blendProtocolSlugs.map((slug) => ({ slug }));
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const p = getProtocol(params.slug);
+  const p = getBlendProtocol(params.slug);
   if (!p) return {};
   return {
     title: `${p.crumb} Dosage Protocol`,
@@ -18,15 +18,15 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   };
 }
 
-export default function ProtocolPage({ params }: { params: { slug: string } }) {
-  const p = getProtocol(params.slug);
+export default function BlendProtocolPage({ params }: { params: { slug: string } }) {
+  const p = getBlendProtocol(params.slug);
   if (!p) notFound();
 
   return (
     <ProtocolArticle
       protocol={p}
-      parent={{ label: "Single-Peptide Dosages", href: "/single-peptide-dosages" }}
-      eyebrow="Single-Peptide Protocol"
+      parent={{ label: "Peptide Blend Dosages", href: "/peptide-blend-dosages" }}
+      eyebrow="Peptide-Blend Protocol"
     />
   );
 }
