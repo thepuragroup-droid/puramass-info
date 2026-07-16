@@ -278,6 +278,12 @@
            transition-all hover:-translate-y-0.5 hover:border-brand hover:shadow-card;
   }
 
+  /* Centered formula callout used in guides */
+  .formula {
+    @apply my-4 rounded-card border border-line/70 bg-gradient-to-br from-lightblue/50 to-surface
+           px-5 py-4 text-center text-base font-semibold text-navy;
+  }
+
   /* Disclaimer box */
   .disclaimer-box {
     @apply my-8 rounded-xl border-l-4 border-warning bg-warning/5 p-4 text-sm text-ink-soft;
