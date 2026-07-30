@@ -8,7 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { Check, Copy, FlaskConical, Syringe, Target } from "lucide-react";
+import { Check, Copy, FlaskConical, Info, Syringe, Target, X } from "lucide-react";
 import {
   AnimatePresence,
   MotionConfig,
@@ -164,6 +164,8 @@ export function Calculator() {
   const [freq, setFreq] = useState("");
   const [syringe, setSyringe] = useState<SyringeSize>(100);
   const [copied, setCopied] = useState(false);
+  const [toast, setToast] = useState<{ id: number; msg: string } | null>(null);
+  const toastId = useRef(0);
 
   const m = useMemo(() => {
     const peptideMg = parseFloat(pep);
@@ -247,19 +249,12 @@ export function Calculator() {
     return out;
   }, [syringe]);
 
-  /* ---- animated motion values (fill, plunger, count-up) ---- */
-  const targetOffset = m.fillFrac * BARREL_W;
-  const springOffset = useSpring(targetOffset, SPRING);
-  const liquidScale = useTransform(springOffset, (o) =>
-    Math.max(0, Math.min(1, o / BARREL_W)),
-  );
-  const rodScale = useTransform(springOffset, (o) =>
-    Math.max((ROD_BASE_W - o) / ROD_BASE_W, 0.02),
-  );
-  useEffect(() => {
-    springOffset.set(targetOffset);
-  }, [targetOffset, springOffset]);
+  /* ---- plunger geometry (CSS-transitioned so the parts stay attached) ---- */
+  const offset = m.fillFrac * BARREL_W; // liquid width & piston/arrow shift
+  const rodScale = Math.max((ROD_BASE_W - offset) / ROD_BASE_W, 0.02); // shrink from thumb
+  const svgTransition = "transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)";
 
+  /* ---- count-up on the headline units ---- */
   const unitsSpring = useSpring(m.ok ? m.units : 0, SPRING);
   const unitsText = useTransform(unitsSpring, (v) => trim(v, 2));
   useEffect(() => {
@@ -275,6 +270,16 @@ export function Calculator() {
   const statusText = m.ok
     ? `Calculated draw: ${trim(m.units, 2)} units, ${trim(m.volumeMl, 3)} mL, ${m.dosesPerVial} full doses per vial.`
     : validation;
+
+  // Surface validation problems as a transient toast rather than an inline box.
+  useEffect(() => {
+    if (validation) {
+      toastId.current += 1;
+      setToast({ id: toastId.current, msg: validation });
+    } else {
+      setToast(null);
+    }
+  }, [validation]);
 
   function applyRecommend() {
     if (m.recommend) setSyringe(m.recommend);
@@ -578,24 +583,8 @@ export function Calculator() {
             </div>
           </motion.div>
 
-          <AnimatePresence>
-            {validation && (
-              <motion.p
-                key="validation"
-                role="alert"
-                initial={{ opacity: 0, y: -4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
-                transition={{ duration: 0.2 }}
-                className="rounded-lg border border-warning/40 bg-warning/10 px-4 py-3 text-sm font-medium text-ink-soft"
-              >
-                {validation}
-              </motion.p>
-            )}
-          </AnimatePresence>
-
           <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
-            {statusText}
+            {m.ok ? statusText : ""}
           </p>
         </div>
 
@@ -730,8 +719,8 @@ export function Calculator() {
                 {/* glass barrel body */}
                 <rect x="60" y="39" width="380" height="46" rx="10" fill="url(#pdcGlass)" />
 
-                {/* liquid (spring-animated fill) */}
-                <motion.rect
+                {/* liquid — fills from the LEFT edge toward the piston */}
+                <rect
                   x={X0}
                   y="41"
                   width={BARREL_W}
@@ -741,7 +730,8 @@ export function Calculator() {
                   style={{
                     transformBox: "fill-box",
                     transformOrigin: "left center",
-                    scaleX: liquidScale,
+                    transform: `scaleX(${m.fillFrac})`,
+                    transition: svgTransition,
                   }}
                 />
 
@@ -817,8 +807,8 @@ export function Calculator() {
                 />
                 <rect x="439.5" y="25.5" width="1.6" height="73" rx="0.8" fill="#ffffff" opacity="0.5" />
 
-                {/* plunger rod (spring-animated length, anchored at the thumb) */}
-                <motion.rect
+                {/* plunger rod — anchored at the thumb (right), left edge tracks the piston */}
+                <rect
                   x="82"
                   y="55"
                   width={ROD_BASE_W}
@@ -830,10 +820,11 @@ export function Calculator() {
                   style={{
                     transformBox: "fill-box",
                     transformOrigin: "right center",
-                    scaleX: rodScale,
+                    transform: `scaleX(${rodScale})`,
+                    transition: svgTransition,
                   }}
                 />
-                <motion.rect
+                <rect
                   x="82"
                   y="57.4"
                   width={ROD_BASE_W}
@@ -844,17 +835,18 @@ export function Calculator() {
                   style={{
                     transformBox: "fill-box",
                     transformOrigin: "right center",
-                    scaleX: rodScale,
+                    transform: `scaleX(${rodScale})`,
+                    transition: svgTransition,
                   }}
                 />
 
-                {/* rubber piston (spring-animated position) */}
-                <motion.g style={{ x: springOffset }}>
+                {/* rubber piston — sits at the fill line, moves right as the vial fills */}
+                <g style={{ transform: `translateX(${offset}px)`, transition: svgTransition }}>
                   <rect x={X0 - 1} y="40.5" width="14" height="43" rx="4" fill="url(#pdcStopper)" />
                   <rect x={X0 - 1} y="49" width="14" height="2" fill="#0f1e45" opacity="0.5" />
                   <rect x={X0 - 1} y="73" width="14" height="2" fill="#0f1e45" opacity="0.5" />
                   <rect x={X0} y="42.5" width="3.4" height="39" rx="1.7" fill="#8ea3dd" opacity="0.6" />
-                </motion.g>
+                </g>
 
                 {/* thumb rest */}
                 <rect
@@ -871,10 +863,10 @@ export function Calculator() {
 
                 {/* draw arrow */}
                 {m.ok && (
-                  <motion.path
+                  <path
                     d="M68 25 l7 10 h-14 Z"
                     fill="#2563eb"
-                    style={{ x: springOffset }}
+                    style={{ transform: `translateX(${offset}px)`, transition: svgTransition }}
                   />
                 )}
 
@@ -991,7 +983,68 @@ export function Calculator() {
           </div>
         </div>
       </div>
+
+      {/* floating validation toast */}
+      <div className="pointer-events-none fixed inset-x-4 bottom-4 z-[100] flex justify-center sm:inset-x-auto sm:bottom-6 sm:right-6 sm:justify-end">
+        <AnimatePresence>
+          {toast && (
+            <Toast
+              key={toast.id}
+              message={toast.msg}
+              onClose={() => setToast(null)}
+            />
+          )}
+        </AnimatePresence>
+      </div>
     </MotionConfig>
+  );
+}
+
+function Toast({
+  message,
+  onClose,
+  duration = 5000,
+}: {
+  message: string;
+  onClose: () => void;
+  duration?: number;
+}) {
+  useEffect(() => {
+    const t = setTimeout(onClose, duration);
+    return () => clearTimeout(t);
+  }, [onClose, duration]);
+
+  return (
+    <motion.div
+      role="alert"
+      initial={{ opacity: 0, y: 20, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 12, scale: 0.96 }}
+      transition={{ type: "spring", stiffness: 320, damping: 28 }}
+      className="pointer-events-auto relative w-full max-w-sm overflow-hidden rounded-xl border border-line/70 bg-white shadow-card"
+    >
+      <div className="flex items-start gap-3 p-4">
+        <span className="mt-0.5 flex h-6 w-6 flex-none items-center justify-center rounded-full bg-lightblue text-brand">
+          <Info className="h-4 w-4" aria-hidden="true" />
+        </span>
+        <p className="flex-1 text-sm text-ink-soft">{message}</p>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Dismiss notification"
+          className="-mr-1 -mt-1 flex-none rounded p-1 text-ink-muted transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+        >
+          <X className="h-4 w-4" aria-hidden="true" />
+        </button>
+      </div>
+      <motion.div
+        className="absolute bottom-0 left-0 h-1 w-full bg-brand"
+        style={{ originX: 0 }}
+        initial={{ scaleX: 1 }}
+        animate={{ scaleX: 0 }}
+        transition={{ duration: duration / 1000, ease: "linear" }}
+      />
+    </motion.div>
   );
 }
 
