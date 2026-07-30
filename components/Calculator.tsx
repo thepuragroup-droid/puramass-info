@@ -593,29 +593,103 @@ export function Calculator() {
             }
           >
             <defs>
-              <linearGradient id="pdcLiq" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="rgba(37,99,235,.38)" />
-                <stop offset="1" stopColor="rgba(37,99,235,.16)" />
+              {/* cylindrical glass barrel */}
+              <linearGradient id="pdcGlass" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#f3f6fa" />
+                <stop offset="0.22" stopColor="#ffffff" />
+                <stop offset="0.55" stopColor="#e4e9f0" />
+                <stop offset="1" stopColor="#c4cedb" />
               </linearGradient>
+              {/* cylindrical liquid */}
+              <linearGradient id="pdcLiq" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#6aa5f2" />
+                <stop offset="0.22" stopColor="#8fbcf9" />
+                <stop offset="0.55" stopColor="#3b82f6" />
+                <stop offset="1" stopColor="#1e40af" />
+              </linearGradient>
+              {/* brushed metal (needle, hub, flange, thumb) */}
+              <linearGradient id="pdcMetal" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#eef2f7" />
+                <stop offset="0.32" stopColor="#c1cad7" />
+                <stop offset="0.5" stopColor="#f6f9fc" />
+                <stop offset="0.72" stopColor="#9dabbb" />
+                <stop offset="1" stopColor="#7d8a9b" />
+              </linearGradient>
+              {/* plunger rod (plastic cylinder) */}
+              <linearGradient id="pdcRod" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#f1f4f8" />
+                <stop offset="0.3" stopColor="#ffffff" />
+                <stop offset="0.55" stopColor="#dbe2ea" />
+                <stop offset="1" stopColor="#b4bfcd" />
+              </linearGradient>
+              {/* rubber piston */}
+              <linearGradient id="pdcStopper" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#3a55ac" />
+                <stop offset="0.28" stopColor="#284394" />
+                <stop offset="0.6" stopColor="#20356f" />
+                <stop offset="1" stopColor="#152650" />
+              </linearGradient>
+              <radialGradient id="pdcGround" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" stopColor="#1e293b" stopOpacity="0.2" />
+                <stop offset="1" stopColor="#1e293b" stopOpacity="0" />
+              </radialGradient>
             </defs>
 
-            {/* needle + hub */}
-            <line x1="4" y1="62" x2="34" y2="62" stroke="#94a3b8" strokeWidth="2.5" />
-            <path d="M34 54 L60 50 L60 74 L34 70 Z" fill="#cbd5e1" />
+            {/* soft ground shadow */}
+            <ellipse cx="272" cy="97" rx="264" ry="8" fill="url(#pdcGround)" />
+
+            {/* needle */}
+            <path
+              d="M2 62 L12 59.6 L34 59.6 L34 64.4 L12 64.4 Z"
+              fill="url(#pdcMetal)"
+            />
+            <line
+              x1="12"
+              y1="60.5"
+              x2="33"
+              y2="60.5"
+              stroke="#ffffff"
+              strokeOpacity="0.6"
+              strokeWidth="0.8"
+            />
+            {/* hub */}
+            <path
+              d="M34 53 L60 49 L60 75 L34 71 Z"
+              fill="url(#pdcMetal)"
+              stroke="#aeb9c6"
+              strokeWidth="0.6"
+            />
+            <line
+              x1="35"
+              y1="55"
+              x2="58"
+              y2="51.5"
+              stroke="#ffffff"
+              strokeOpacity="0.55"
+              strokeWidth="0.8"
+            />
+
+            {/* glass barrel body */}
+            <rect x="60" y="39" width="380" height="46" rx="10" fill="url(#pdcGlass)" />
 
             {/* liquid */}
             <rect
               x={X0}
-              y="42"
+              y="41"
               width={BARREL_W}
-              height="40"
+              height="42"
               fill="url(#pdcLiq)"
+              fillOpacity="0.92"
               style={{
                 transformBox: "fill-box",
                 transformOrigin: "left",
                 transform: `scaleX(${m.fillFrac})`,
               }}
             />
+
+            {/* tube sheen: top highlight + bottom shadow across glass and liquid */}
+            <rect x="64" y="42.5" width="372" height="5" rx="2.5" fill="#ffffff" opacity="0.5" />
+            <rect x="64" y="77" width="372" height="4" rx="2" fill="#334155" opacity="0.14" />
 
             {/* ticks */}
             <g>
@@ -626,7 +700,7 @@ export function Calculator() {
                     x2={t.x}
                     y1="41"
                     y2={t.major ? 59 : 51}
-                    stroke={t.major ? "#64748b" : "#a8b4c2"}
+                    stroke={t.major ? "#5b6b7f" : "#9aa8b8"}
                     strokeWidth={t.major ? 1.4 : 1}
                   />
                   {t.major && (
@@ -644,37 +718,88 @@ export function Calculator() {
               ))}
             </g>
 
-            {/* barrel outline */}
+            {/* barrel outline + inner edge highlight */}
             <rect
               x="60"
               y="39"
               width="380"
               height="46"
-              rx="7"
+              rx="10"
               fill="none"
-              stroke="#cbd5e1"
-              strokeWidth="1.5"
+              stroke="#b7c2d0"
+              strokeWidth="1.4"
             />
-            {/* flange */}
-            <rect x="438" y="24" width="7" height="76" rx="2" fill="#cbd5e1" />
-            {/* plunger rod + seal + thumb */}
+            <rect
+              x="61.5"
+              y="40.5"
+              width="377"
+              height="43"
+              rx="8.5"
+              fill="none"
+              stroke="#ffffff"
+              strokeOpacity="0.6"
+              strokeWidth="1"
+            />
+
+            {/* finger flange */}
+            <rect
+              x="438"
+              y="24"
+              width="8"
+              height="76"
+              rx="3"
+              fill="url(#pdcMetal)"
+              stroke="#aeb9c6"
+              strokeWidth="0.5"
+            />
+            <rect x="439.5" y="25.5" width="1.6" height="73" rx="0.8" fill="#ffffff" opacity="0.5" />
+
+            {/* plunger rod (horizontal cylinder) */}
             <rect
               x={82 + offset}
               y="55"
               width={Math.max(ROD_END - (82 + offset), 2)}
               height="14"
-              rx="3"
-              fill="#d5dee7"
+              rx="4"
+              fill="url(#pdcRod)"
+              stroke="#b7c2d0"
+              strokeWidth="0.5"
             />
+            <rect
+              x={82 + offset}
+              y="57.4"
+              width={Math.max(ROD_END - (82 + offset), 2)}
+              height="2.2"
+              rx="1.1"
+              fill="#ffffff"
+              opacity="0.6"
+            />
+
+            {/* rubber piston */}
             <g style={{ transform: `translateX(${offset}px)` }}>
-              <rect x={X0} y="41" width="12" height="42" rx="2.5" fill="#1e3a8a" />
+              <rect x={X0 - 1} y="40.5" width="14" height="43" rx="4" fill="url(#pdcStopper)" />
+              <rect x={X0 - 1} y="49" width="14" height="2" fill="#0f1e45" opacity="0.5" />
+              <rect x={X0 - 1} y="73" width="14" height="2" fill="#0f1e45" opacity="0.5" />
+              <rect x={X0} y="42.5" width="3.4" height="39" rx="1.7" fill="#8ea3dd" opacity="0.6" />
             </g>
-            <rect x="533" y="32" width="9" height="60" rx="3" fill="#9fb1c1" />
+
+            {/* thumb rest */}
+            <rect
+              x="531"
+              y="31"
+              width="11"
+              height="62"
+              rx="4"
+              fill="url(#pdcMetal)"
+              stroke="#aeb9c6"
+              strokeWidth="0.5"
+            />
+            <rect x="532.5" y="33" width="2" height="58" rx="1" fill="#ffffff" opacity="0.5" />
 
             {/* draw arrow */}
             {m.ok && (
               <path
-                d="M68 26 l7 10 h-14 Z"
+                d="M68 25 l7 10 h-14 Z"
                 fill="#2563eb"
                 style={{ transform: `translateX(${offset}px)` }}
               />
