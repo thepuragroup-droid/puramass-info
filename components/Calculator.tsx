@@ -8,7 +8,17 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { Check, Copy, FlaskConical, Info, Syringe, Target, X } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  CircleHelp,
+  Copy,
+  FlaskConical,
+  Info,
+  Syringe,
+  Target,
+  X,
+} from "lucide-react";
 import {
   AnimatePresence,
   MotionConfig,
@@ -133,9 +143,9 @@ function Tip({ label, children }: { label: string; children: ReactNode }) {
         onMouseLeave={() => setHover(false)}
         onFocus={() => setHover(true)}
         onBlur={() => setHover(false)}
-        className="flex h-4 w-4 items-center justify-center rounded-full border border-line bg-white text-[0.6rem] font-bold leading-none text-ink-muted transition-colors hover:border-brand hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+        className="relative flex h-4 w-4 items-center justify-center rounded-full text-ink-muted transition-colors before:absolute before:-inset-1.5 before:content-[''] hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
       >
-        ?
+        <CircleHelp className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
       </motion.button>
       <AnimatePresence>
         {shown && (
@@ -301,6 +311,7 @@ export function Calculator() {
       freq ? `Vial lasts: ~${fmtDuration(m.durationDays)} at ${FREQ_LABELS[freq]}` : null,
       "",
       "For research & educational use only. Always verify calculations independently.",
+      "Calculated with aminocalculator",
     ].filter(Boolean);
     try {
       await navigator.clipboard.writeText(lines.join("\n"));
@@ -334,20 +345,13 @@ export function Calculator() {
     }`;
   }
 
-  const cardMotion = {
-    initial: { opacity: 0, y: 10 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "-40px" },
-    transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] as const },
-  };
-
   return (
     <MotionConfig reducedMotion="user">
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:items-start">
         {/* LEFT: inputs */}
         <div className="min-w-0 space-y-5">
           {/* STEP 1 · RECONSTITUTION */}
-          <motion.div className={card} {...cardMotion}>
+          <div className={card}>
             <h2 className={cardH2}>
               <span className={stepBadge}>1</span>
               <FlaskConical className="h-5 w-5 text-brand" aria-hidden="true" />
@@ -429,27 +433,27 @@ export function Calculator() {
                     Every syringe number below comes from this.
                   </Tip>
                 </dt>
-                <dd className="text-2xl font-bold text-brand">
+                <dd className="text-2xl font-bold tabular-nums text-brand">
                   {m.reconOk ? `${trim(m.concMgMl, 2)} mg/mL` : "—"}
                 </dd>
               </div>
               <div className="flex items-center justify-between border-b border-line/60 py-2.5">
                 <dt className="text-sm text-ink-soft">Per 1 unit (0.01 mL)</dt>
-                <dd className="font-semibold text-ink">
+                <dd className="font-semibold tabular-nums text-ink">
                   {m.reconOk ? fmtMcg(m.perUnitMcg) : "—"}
                 </dd>
               </div>
               <div className="flex items-center justify-between pt-2.5">
                 <dt className="text-sm text-ink-soft">Per 10 units (0.1 mL)</dt>
-                <dd className="font-semibold text-ink">
+                <dd className="font-semibold tabular-nums text-ink">
                   {m.reconOk ? fmtMcg(m.perTenMcg) : "—"}
                 </dd>
               </div>
             </dl>
-          </motion.div>
+          </div>
 
           {/* STEP 2 · DOSE */}
-          <motion.div className={card} {...cardMotion}>
+          <div className={card}>
             <h2 className={cardH2}>
               <span className={stepBadge}>2</span>
               <Syringe className="h-5 w-5 text-brand" aria-hidden="true" />
@@ -571,7 +575,7 @@ export function Calculator() {
                     >
                       <span className="text-lg font-bold leading-none">{s}</span>
                       <span
-                        className={`mt-1 text-[0.68rem] ${active ? "text-white/80" : "text-ink-muted"}`}
+                        className={`mt-1 text-[0.68rem] ${active ? "text-white" : "text-ink-muted"}`}
                       >
                         unit · {SYRINGES[s].ml}
                       </span>
@@ -581,7 +585,7 @@ export function Calculator() {
               </div>
               <p className="mt-2 text-xs text-ink-muted">{m.cfg.hint}</p>
             </div>
-          </motion.div>
+          </div>
 
           <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
             {m.ok ? statusText : ""}
@@ -874,7 +878,7 @@ export function Calculator() {
                   x="250"
                   y="127"
                   textAnchor="middle"
-                  fill="#94a3b8"
+                  fill="#64748b"
                   fontSize="10"
                   letterSpacing="1.5"
                 >
@@ -894,7 +898,7 @@ export function Calculator() {
                   transition={{ duration: 0.2 }}
                   className="mt-4 space-y-2 text-sm"
                 >
-                  <p className={m.onMark ? "text-success" : "text-ink-soft"}>
+                  <p className={m.onMark ? "text-success-ink" : "text-ink-soft"}>
                     {m.onMark ? "Exact: " : "Nearest mark: "}
                     <strong className="text-ink">
                       {trim(m.markUnits, 2)} units = {trim(m.markDoseMcg, 1)} mcg
@@ -908,7 +912,7 @@ export function Calculator() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="font-medium text-error"
+                        className="font-medium text-error-ink"
                       >
                         This draw is larger than the {syringe}-unit syringe holds.
                         Add more bacteriostatic water, split the dose, or use a
@@ -934,7 +938,8 @@ export function Calculator() {
                           {SYRINGES[m.recommend].mark === 0.5
                             ? "½-unit"
                             : `${SYRINGES[m.recommend].mark}-unit`}{" "}
-                          marks) →
+                          marks)
+                          <ArrowRight className="h-4 w-4" aria-hidden="true" />
                         </motion.button>
                       </motion.p>
                     )}
@@ -961,7 +966,7 @@ export function Calculator() {
                       transition={{ duration: 0.15 }}
                       className="inline-flex items-center gap-2"
                     >
-                      <Check className="h-4 w-4 text-success" aria-hidden="true" />
+                      <Check className="h-4 w-4 text-success-ink" aria-hidden="true" />
                       Copied
                     </motion.span>
                   ) : (
@@ -1055,7 +1060,7 @@ function Stat({ k, v, tip }: { k: string; v: string; tip?: string }) {
         {k}
         {tip && <Tip label={`About ${k.toLowerCase()}`}>{tip}</Tip>}
       </div>
-      <div className="mt-1 text-lg font-bold text-navy">{v}</div>
+      <div className="mt-1 text-lg font-bold tabular-nums text-navy">{v}</div>
     </div>
   );
 }

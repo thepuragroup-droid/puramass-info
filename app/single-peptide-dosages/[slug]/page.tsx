@@ -26,7 +26,7 @@ export default function ProtocolPage({ params }: { params: { slug: string } }) {
     <ProtocolArticle
       protocol={p}
       parent={{ label: "Single-Peptide Dosages", href: "/single-peptide-dosages" }}
-      eyebrow="Single-Peptide Protocol"
+      kind="Single-Peptide Protocol"
     />
   );
 }

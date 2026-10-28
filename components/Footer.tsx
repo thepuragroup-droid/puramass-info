@@ -32,13 +32,13 @@ export function Footer() {
   return (
     <footer className="border-t border-line/70 bg-surface">
       <div className="wrap py-14">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1.4fr]">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1.3fr]">
           <div>
             <Brand />
             <p className="mt-4 max-w-xs text-sm text-ink-muted leading-relaxed">
-              An independent educational reference library of reconstitution and dosing
-              protocols for research compounds, compiled from peer-reviewed literature and
-              primary sources.
+              An independent peptide reconstitution calculator and reference library of
+              research dosing protocols, compiled from peer-reviewed literature and primary
+              sources.
             </p>
           </div>
 
@@ -46,21 +46,14 @@ export function Footer() {
           <FooterCol title="Learn" links={learn} />
 
           <div>
-            <h4 className="text-sm font-bold text-navy">Stay Updated</h4>
-            <p className="mt-3 text-sm text-ink-muted">
-              New protocols and research summaries, no spam.
+            <h2 className="text-sm font-bold tracking-normal text-navy">The calculator</h2>
+            <p className="mt-4 text-sm leading-relaxed text-ink-muted">
+              Vial amount, water volume and target dose in; the exact draw in U-100 syringe
+              units out, drawn to scale.
             </p>
-            <form className="mt-4 flex flex-col gap-2">
-              <input
-                type="email"
-                placeholder="you@lab.com"
-                aria-label="Email"
-                className="w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
-              />
-              <button type="button" className="btn btn-primary w-full">
-                Subscribe
-              </button>
-            </form>
+            <Link href="/calculator" className="btn btn-primary mt-4">
+              Open Calculator
+            </Link>
           </div>
         </div>
 
@@ -74,7 +67,7 @@ export function Footer() {
         </p>
 
         <div className="mt-8 flex flex-col gap-4 border-t border-line/60 pt-6 text-xs text-ink-muted md:flex-row md:items-center md:justify-between">
-          <span>© 2026 Peptide Dosage Guide. All rights reserved.</span>
+          <span>© 2026 aminocalculator. All rights reserved.</span>
           <div className="flex flex-wrap gap-x-4 gap-y-2">
             {legal.map((l) => (
               <Link key={l.href} href={l.href} className="hover:text-brand">
@@ -97,7 +90,7 @@ function FooterCol({
 }) {
   return (
     <div>
-      <h4 className="text-sm font-bold text-navy">{title}</h4>
+      <h2 className="text-sm font-bold tracking-normal text-navy">{title}</h2>
       <ul className="mt-4 space-y-2.5">
         {links.map((l) => (
           <li key={l.href}>

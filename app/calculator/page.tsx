@@ -73,10 +73,10 @@ const footLinks = [
 export default function CalculatorPage() {
   return (
     <>
-      <nav className="crumb">
+      <nav className="crumb" aria-label="Breadcrumb">
         <div className="wrap py-3 text-sm">
           <Link href="/">Home</Link>
-          <span className="sep">/</span>
+          <span className="sep" aria-hidden="true">/</span>
           <span className="text-ink-soft">Dosage &amp; Reconstitution Calculator</span>
         </div>
       </nav>
@@ -84,7 +84,6 @@ export default function CalculatorPage() {
       {/* Hero */}
       <section className="bg-gradient-to-b from-lightblue/50 to-white py-12">
         <div className="wrap text-center">
-          <span className="eyebrow">Interactive Tool</span>
           <h1>Peptide Dosage &amp; Reconstitution Calculator</h1>
           <p className="lead mx-auto mt-4 max-w-3xl">
             Plan a research peptide protocol in two steps: work out the

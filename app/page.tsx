@@ -1,13 +1,5 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  FlaskConical,
-  Syringe,
-  BookOpen,
-  ShieldCheck,
-  ScrollText,
-  Layers,
-} from "lucide-react";
+import { ArrowRight, FlaskConical, Syringe, BookOpen } from "lucide-react";
 import { Calculator } from "@/components/Calculator";
 
 type CardData = {
@@ -44,7 +36,6 @@ const featured: CardData[] = [
 
 const guides: (CardData & { icon: React.ComponentType<{ className?: string }> })[] = [
   {
-    tag: "Guide",
     icon: BookOpen,
     title: "Beginner's Guide to Peptides",
     body: "What lyophilized peptides are, the vocabulary, and how research dosing is expressed.",
@@ -52,7 +43,6 @@ const guides: (CardData & { icon: React.ComponentType<{ className?: string }> })
     cta: "Read Guide",
   },
   {
-    tag: "Guide",
     icon: FlaskConical,
     title: "How to Reconstitute Peptides",
     body: "Mixing lyophilized powder with bacteriostatic water without degrading the compound.",
@@ -60,7 +50,6 @@ const guides: (CardData & { icon: React.ComponentType<{ className?: string }> })
     cta: "Read Guide",
   },
   {
-    tag: "Guide",
     icon: Syringe,
     title: "Syringe & Measurement Guide",
     body: "Reading U-100 insulin syringes and converting between mcg, mg, mL and units.",
@@ -69,64 +58,36 @@ const guides: (CardData & { icon: React.ComponentType<{ className?: string }> })
   },
 ];
 
-const explore: (CardData & { icon: React.ComponentType<{ className?: string }> })[] = [
-  {
-    icon: Layers,
-    title: "Single-Peptide Dosages",
-    body: "Per-compound, per-vial reconstitution and titration protocols.",
-    href: "/single-peptide-dosages",
-    cta: "Browse Singles",
-  },
-  {
-    icon: FlaskConical,
-    title: "Peptide Blends",
-    body: "Multi-compound research vials with combined dosing math.",
-    href: "/peptide-blend-dosages",
-    cta: "Browse Blends",
-  },
-  {
-    icon: BookOpen,
-    title: "Compound Library",
-    body: "Mechanism, background and research summaries for each peptide.",
-    href: "/learn",
-    cta: "Open Library",
-  },
-];
-
 export default function HomePage() {
   return (
     <>
-      {/* HERO */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-lightblue/50 via-white to-white">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-60"
-          style={{
-            backgroundImage:
-              "radial-gradient(60rem 30rem at 70% -10%, rgba(96,165,250,0.18), transparent 60%)",
-          }}
-          aria-hidden
-        />
-        <div className="wrap relative py-20 sm:py-24">
-          <div className="max-w-2xl animate-fade-up">
-            <span className="eyebrow">Research Protocol Library</span>
+      {/* HERO + CALCULATOR: the product leads */}
+      <section className="border-b border-line/60 bg-gradient-to-b from-lightblue/50 via-white to-white">
+        <div className="wrap pb-14 pt-12 sm:pb-20 sm:pt-16">
+          <div className="max-w-3xl animate-fade-up">
             <h1>
-              Precise peptide dosing,
-              <br />
-              grounded in the literature.
+              Peptide reconstitution math,
+              <br className="hidden sm:block" /> measured to the syringe line.
             </h1>
-            <p className="lead mt-5 max-w-xl">
-              Reconstitution math, titration schedules, storage parameters and mechanism notes
-              for the most-studied research compounds — written from peer-reviewed sources, not
-              message boards.
+            <p className="lead mt-5 max-w-2xl">
+              Enter the peptide in your vial, the bacteriostatic water you add and your target
+              dose. aminocalculator returns the exact draw in U-100 insulin-syringe units and
+              shows it on a to-scale syringe.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3.5">
-              <Link href="/single-peptide-dosages" className="btn btn-primary">
-                Browse Protocols
+            <p className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+              <Link
+                href="/calculator#how-to-use-the-peptide-calculator"
+                className="btn-ghost inline-flex items-center gap-1"
+              >
+                How the math works <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
-              <Link href="/calculator" className="btn btn-light">
-                Open Calculator
+              <Link href="/single-peptide-dosages" className="btn-ghost inline-flex items-center gap-1">
+                Browse dosing protocols <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
-            </div>
+            </p>
+          </div>
+          <div className="mt-10">
+            <Calculator />
           </div>
         </div>
       </section>
@@ -134,8 +95,11 @@ export default function HomePage() {
       {/* FEATURED */}
       <section className="py-16 sm:py-20">
         <div className="wrap">
-          <span className="eyebrow">Featured Protocols</span>
-          <h2>Most-referenced dosing guides</h2>
+          <h2>Most-referenced dosing protocols</h2>
+          <p className="lead mt-3 max-w-2xl">
+            Reconstitution math and titration schedules per vial, with every draw already
+            converted to syringe units.
+          </p>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {featured.map((c) => (
               <ProtocolCard key={c.title} {...c} />
@@ -148,7 +112,6 @@ export default function HomePage() {
       <section className="bg-surface py-16 sm:py-20">
         <div className="wrap grid items-center gap-12 lg:grid-cols-2">
           <div>
-            <span className="eyebrow">Why These Guides</span>
             <h2>Built from primary sources, not guesswork</h2>
             <p className="lead mt-4">
               Every protocol is assembled from peer-reviewed academic literature, clinical-trial
@@ -186,71 +149,38 @@ export default function HomePage() {
 
       {/* ESSENTIAL GUIDES */}
       <section className="py-16 sm:py-20">
-        <div className="wrap">
-          <span className="eyebrow">Essential Guides</span>
-          <h2>Foundations before you calculate</h2>
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {guides.map(({ icon: Icon, ...c }) => (
-              <div key={c.title} className="card">
-                <div className="card-top" />
-                <div className="card-body">
-                  <div className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-lightblue text-brand">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <span className="tag">{c.tag}</span>
-                  <h3>{c.title}</h3>
-                  <p>{c.body}</p>
-                  <Link href={c.href} className="btn-ghost inline-flex items-center gap-1">
-                    {c.cta} <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CALCULATOR */}
-      <section className="bg-navy py-16 text-white sm:py-20">
-        <div className="wrap grid items-center gap-10 lg:grid-cols-2">
+        <div className="wrap grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16">
           <div>
-            <span className="eyebrow text-accent">Interactive Tool</span>
-            <h2 className="text-white">Reconstitution Calculator</h2>
-            <p className="mt-4 max-w-md text-[1.05rem] leading-relaxed text-lightblue">
-              Enter the peptide amount in the vial, how much bacteriostatic water you're adding,
-              and your target research dose. The calculator returns the exact volume to draw — in
-              insulin-syringe units — plus the concentration and doses per vial.
+            <h2>Foundations before you calculate</h2>
+            <p className="lead mt-4">
+              The calculator does the arithmetic. These guides cover what the numbers mean and
+              how to handle the vial they describe.
             </p>
-            <Link href="/calculator" className="btn btn-primary mt-8">
-              Open Full Calculator
-            </Link>
           </div>
-          <Calculator />
-        </div>
-      </section>
-
-      {/* EXPLORE */}
-      <section className="bg-surface py-16 sm:py-20">
-        <div className="wrap text-center">
-          <span className="eyebrow">Ready to explore more</span>
-          <h2>Where do you want to start?</h2>
-          <div className="mt-8 grid gap-6 text-left md:grid-cols-3">
-            {explore.map(({ icon: Icon, ...c }) => (
-              <div key={c.title} className="card">
-                <div className="card-top" />
-                <div className="card-body">
-                  <div className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-lightblue text-brand">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <h3>{c.title}</h3>
-                  <p>{c.body}</p>
-                  <Link href={c.href} className="btn-ghost inline-flex items-center gap-1">
-                    {c.cta} <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </div>
-              </div>
+          <ul className="divide-y divide-line/70 border-y border-line/70">
+            {guides.map(({ icon: Icon, ...c }) => (
+              <li key={c.title}>
+                <Link
+                  href={c.href}
+                  className="group flex items-start gap-4 py-6 transition-colors hover:bg-surface sm:px-3"
+                >
+                  <Icon className="mt-1 h-5 w-5 flex-none text-brand" aria-hidden="true" />
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-display text-lg font-bold text-navy group-hover:text-brand">
+                      {c.title}
+                    </span>
+                    <span className="mt-1 block text-[0.95rem] leading-relaxed text-ink-soft">
+                      {c.body}
+                    </span>
+                  </span>
+                  <ArrowRight
+                    className="mt-1.5 h-4 w-4 flex-none text-ink-muted transition-transform group-hover:translate-x-0.5 group-hover:text-brand"
+                    aria-hidden="true"
+                  />
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
     </>
@@ -260,13 +190,12 @@ export default function HomePage() {
 function ProtocolCard({ tag, title, body, href, cta }: CardData) {
   return (
     <div className="card flex flex-col">
-      <div className="card-top" />
       <div className="card-body flex flex-1 flex-col">
         {tag && <span className="tag">{tag}</span>}
         <h3>{title}</h3>
         <p className="flex-1">{body}</p>
         <Link href={href} className="btn-ghost inline-flex items-center gap-1">
-          {cta} <ArrowRight className="h-4 w-4" />
+          {cta} <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
       </div>
     </div>
