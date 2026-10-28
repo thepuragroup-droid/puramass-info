@@ -1,16 +1,32 @@
-# Peptide Information Website — Design & Build Spec
+# aminocalculator — Design & Build Spec
 
 > Reference document for building the Next.js peptide reconstitution & dosing
-> reference site. This is the single source of truth for visual identity,
-> content architecture, component behavior, and calculator logic.
+> site **aminocalculator**. This is the single source of truth for visual
+> identity, content architecture, component behavior, and calculator logic.
 
 ---
 
+## 0. Brand
+
+- **Name:** `aminocalculator` — always one word, always lowercase, in UI,
+  metadata and copy (including at the start of a sentence).
+- **Wordmark:** Manrope ExtraBold, tracking −0.02em. `amino` in Navy
+  (`#1E3A8A`), `calculator` in Medical Blue (`#2563EB`). On dark surfaces:
+  white + Accent Blue.
+- **Mark:** a hexagonal residue outline (Navy, 3px stroke) filled to a
+  measured line in Medical Blue, with a white fill line — amino acid + measured
+  dose. Source: `components/Brand.tsx` (`BrandMark`), favicon `app/icon.svg`.
+- **Descriptor:** "Peptide reconstitution & dosing math".
+- **Positioning:** the calculator is the product; the protocol library and
+  guides support it. The home page opens on the live calculator.
+- **Title pattern:** `<Page> · aminocalculator`.
+
 ## 1. Product Overview
 
-An **independent, educational reference library** for peptide reconstitution
-and dosing protocols, compiled from peer-reviewed literature and primary
-sources. It is **not** a store and **not** medical advice.
+A **peptide reconstitution & dosage calculator** backed by an **independent,
+educational reference library** of dosing protocols, compiled from
+peer-reviewed literature and primary sources. It is **not** a store and
+**not** medical advice.
 
 **Positioning:** scientific credibility, medical professionalism, modern
 simplicity. Should feel like a blend of **modern healthcare platforms,
@@ -54,10 +70,12 @@ use." Compounds are described as investigational, not approved for human use.
 ```
 
 **Primary nav:** Home · Single Peptides (dropdown) · Blends (dropdown) ·
-Learn (dropdown) · Calculator · FAQ, plus a "Dose Calculator" CTA button.
+Learn (dropdown) · Calculator · FAQ, plus an "Open Calculator" CTA button.
+Dropdowns open on hover **and** on keyboard focus (`group-focus-within`).
 
-**Footer:** brand + tagline, Protocols column, Learn column, newsletter
-signup, full research-use disclaimer, © line, legal links.
+**Footer:** brand + descriptor, Protocols column, Learn column, calculator
+CTA column, full research-use disclaimer, © aminocalculator line, legal links.
+(No newsletter form until there is a real signup endpoint behind it.)
 
 ---
 
@@ -102,11 +120,14 @@ element should feel purposeful and refined.
 | Background Gray | `#F8FAFC` |
 
 ### Status (use sparingly, for meaning not decoration)
-| Purpose | Hex       |
-| ------- | --------- |
-| Success | `#10B981` |
-| Warning | `#F59E0B` |
-| Error   | `#EF4444` |
+| Purpose | Fill (`success` …) | Text on light (`success-ink` …) |
+| ------- | ------------------ | ------------------------------- |
+| Success | `#10B981`          | `#047857`                       |
+| Warning | `#F59E0B`          | `#B45309`                       |
+| Error   | `#EF4444`          | `#B91C1C`                       |
+
+The fill values fail 4.5:1 as text on white; any status **text** uses the
+`-ink` variant.
 
 ### Suggested CSS variables
 ```css
@@ -131,7 +152,10 @@ element should feel purposeful and refined.
 
 ## 5. Typography
 
-- **Font:** Inter (primary), Manrope (alternative). Load via `next/font`.
+- **Display:** Manrope (`font-display`) for h1–h4 and the wordmark,
+  ExtraBold, tracking −0.025em.
+- **Body / UI:** Inter (`font-sans`). Both via `next/font`.
+- Numbers in results, stats and tables use `tabular-nums`.
 - Large, bold headings with generous spacing.
 - Body line-height **1.6–1.8**.
 - Hierarchy through **size and weight**, not color variation.
@@ -163,6 +187,15 @@ Suggested scale (rem): h1 3.0 / h2 2.0 / h3 1.5 / body 1.0 / small 0.875.
 - **Primary:** brand blue, high contrast, rounded, hover → `--brand-hover`.
 - **Secondary:** outlined, subtle hover fill.
 - **Text:** understated, for nav/supporting actions.
+
+### Don'ts (enforced in the codebase)
+- No eyebrow/kicker labels above headings — the heading carries itself.
+- No decorative gradient bars on cards; no colored side-stripe borders on
+  callouts (use a full 1px tinted border).
+- Don't hide content behind scroll-triggered entrance animations; content is
+  visible by default.
+- Don't name a utility-looking class that collides with Tailwind (e.g.
+  `table-caption` is a display utility — the table note class is `.table-note`).
 
 ### Search
 - Rounded input, soft border, search icon, clear placeholder.
@@ -205,7 +238,8 @@ influencers, loud promo graphics, medical clichés.
 Subtle and purposeful: smooth page transitions, soft fade-ins, gentle hover
 elevation, light scaling on interactive elements, smooth color transitions,
 responsive button feedback. Motion enhances usability, never distracts.
-Respect `prefers-reduced-motion`.
+Respect `prefers-reduced-motion`: drop travel (hover lifts, slides, smooth
+scroll, the hero fade-up) but keep color/opacity feedback.
 
 ---
 

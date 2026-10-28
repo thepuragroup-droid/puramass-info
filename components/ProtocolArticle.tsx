@@ -8,21 +8,21 @@ type Parent = { label: string; href: string };
 export function ProtocolArticle({
   protocol,
   parent,
-  eyebrow,
+  kind,
 }: {
   protocol: Protocol;
   parent: Parent;
-  eyebrow: string;
+  kind: string;
 }) {
   const p = protocol;
   return (
     <>
-      <nav className="crumb">
+      <nav className="crumb" aria-label="Breadcrumb">
         <div className="wrap py-3 text-sm">
           <Link href="/">Home</Link>
-          <span className="sep">/</span>
+          <span className="sep" aria-hidden="true">/</span>
           <Link href={parent.href}>{parent.label}</Link>
-          <span className="sep">/</span>
+          <span className="sep" aria-hidden="true">/</span>
           <span className="text-ink-soft">{p.crumb}</span>
         </div>
       </nav>
@@ -30,10 +30,10 @@ export function ProtocolArticle({
       {/* Hero */}
       <section className="pt-10">
         <div className="wrap">
-          <span className="eyebrow">{eyebrow}</span>
           <h1>{p.title}</h1>
           <p className="lead mt-4 max-w-3xl">{p.lead}</p>
           <div className="mt-4 flex flex-wrap gap-2">
+            <span className="pill">{kind}</span>
             {p.pills.map((pill) => (
               <span key={pill.label} className={`pill ${pill.red ? "pill-red" : ""}`}>
                 {pill.label}
@@ -47,7 +47,7 @@ export function ProtocolArticle({
         <div className="wrap protocol">
           {/* TOC */}
           <aside className="toc">
-            <h4>On This Page</h4>
+            <p className="toc-title">On This Page</p>
             <ol>
               {p.sections.map((s) => (
                 <li key={s.id}>
@@ -124,7 +124,11 @@ function SectionBlock({ section, disclaimer }: { section: Section; disclaimer: s
               </tbody>
             </table>
           </div>
-          {section.table.caption && <p className="table-caption">{section.table.caption}</p>}
+          {section.table.caption && (
+            <p className="table-note">
+              <RichText text={section.table.caption} />
+            </p>
+          )}
           {section.note && (
             <div className="callout">
               <strong>Note</strong>

@@ -22,12 +22,13 @@ const config: Config = {
         },
         line: "#CBD5E1", // borders
         surface: "#F8FAFC", // background gray
-        success: "#10B981",
-        warning: "#F59E0B",
-        error: "#EF4444",
+        success: { DEFAULT: "#10B981", ink: "#047857" }, // ink = text-safe on light surfaces
+        warning: { DEFAULT: "#F59E0B", ink: "#B45309" },
+        error: { DEFAULT: "#EF4444", ink: "#B91C1C" },
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        display: ["var(--font-manrope)", "var(--font-inter)", "system-ui", "sans-serif"],
       },
       maxWidth: {
         wrap: "1280px",

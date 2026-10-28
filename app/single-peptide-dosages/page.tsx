@@ -12,17 +12,16 @@ export const metadata: Metadata = {
 export default function SinglePeptidesIndex() {
   return (
     <>
-      <nav className="crumb">
+      <nav className="crumb" aria-label="Breadcrumb">
         <div className="wrap py-3 text-sm">
           <Link href="/">Home</Link>
-          <span className="sep">/</span>
+          <span className="sep" aria-hidden="true">/</span>
           <span className="text-ink-soft">Single-Peptide Dosages</span>
         </div>
       </nav>
 
       <section className="bg-gradient-to-b from-lightblue/40 to-white py-14">
         <div className="wrap">
-          <span className="eyebrow">Protocol Library</span>
           <h1>Single-Peptide Dosage Protocols</h1>
           <p className="lead mt-4 max-w-2xl">
             Per-compound, per-vial reconstitution math and titration schedules — each expressed in
