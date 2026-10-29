@@ -138,6 +138,7 @@ export const singlePeptides: CompoundCard[] = [
     blurb: "Tuftsin analog; stress & GABA research.",
     search: "selank anxiolytic",
     variants: [
+      { label: "5 mg", slug: "selank-5mg" },
       { label: "10 mg", slug: "selank-10mg" },
       { label: "20 mg", slug: "selank-20mg" },
       { label: "30 mg", slug: "selank-30mg" },
