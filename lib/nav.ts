@@ -6,7 +6,7 @@ export const singlePeptides: NavChild[] = [
   { label: "Retatrutide", href: "/single-peptide-dosages/retatrutide-10mg" },
   { label: "Tirzepatide", href: "/single-peptide-dosages/tirzepatide-10mg" },
   { label: "BPC-157", href: "/single-peptide-dosages/bpc-157-10mg" },
-  { label: "TB-500", href: "/single-peptide-dosages/tb-500-10mg" },
+  { label: "TB-500", href: "/single-peptide-dosages/tb-500-5mg" },
   { label: "MOTS-C", href: "/single-peptide-dosages/mots-c-10mg" },
   { label: "GHK-Cu", href: "/single-peptide-dosages/ghk-cu-50mg" },
   { label: "Semax", href: "/single-peptide-dosages/semax-10mg" },

@@ -51,6 +51,7 @@ export const singlePeptides: CompoundCard[] = [
     blurb: "Thymosin β4 fragment; tissue remodeling.",
     search: "tb-500 thymosin",
     variants: [
+      { label: "5 mg", slug: "tb-500-5mg" },
       { label: "10 mg", slug: "tb-500-10mg" },
       { label: "20 mg", slug: "tb-500-20mg" },
       { label: "30 mg", slug: "tb-500-30mg" },
