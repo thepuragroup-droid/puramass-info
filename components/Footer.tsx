@@ -15,7 +15,7 @@ const learn = [
   { label: "Syringe & Measurement", href: "/guides/syringe-measurement-guide" },
   { label: "Storage Guide", href: "/guides/storage-guide" },
   { label: "Glossary", href: "/guides/glossary" },
-  { label: "FAQ", href: "/guides/faq" },
+  // { label: "FAQ", href: "/guides/faq" }, // hidden for now
 ];
 
 const legal = [

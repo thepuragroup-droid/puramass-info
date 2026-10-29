@@ -35,7 +35,8 @@ export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Single Peptides", href: "/single-peptide-dosages", children: singlePeptides },
   { label: "Blends", href: "/peptide-blend-dosages", children: blends },
-  { label: "Learn", href: "/guides/beginners-guide", children: learn },
+  // Hidden for now — restore when the guides and FAQ pages are live.
+  // { label: "Learn", href: "/guides/beginners-guide", children: learn },
   { label: "Calculator", href: "/calculator" },
-  { label: "FAQ", href: "/guides/faq" },
+  // { label: "FAQ", href: "/guides/faq" },
 ];
