@@ -9,7 +9,7 @@ export const singlePeptides: NavChild[] = [
   { label: "TB-500", href: "/single-peptide-dosages/tb-500-5mg" },
   { label: "MOTS-C", href: "/single-peptide-dosages/mots-c-5mg" },
   { label: "GHK-Cu", href: "/single-peptide-dosages/ghk-cu-100mg" },
-  { label: "Semax", href: "/single-peptide-dosages/semax-10mg" },
+  { label: "Semax", href: "/single-peptide-dosages/semax-5mg" },
   { label: "Selank", href: "/single-peptide-dosages/selank-10mg" },
 ];
 

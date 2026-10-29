@@ -126,6 +126,7 @@ export const singlePeptides: CompoundCard[] = [
     blurb: "Heptapeptide; cognitive & BDNF research.",
     search: "semax nootropic",
     variants: [
+      { label: "5 mg", slug: "semax-5mg" },
       { label: "10 mg", slug: "semax-10mg" },
       { label: "20 mg", slug: "semax-20mg" },
       { label: "30 mg", slug: "semax-30mg" },
