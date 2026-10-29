@@ -3,12 +3,23 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --font-inter: "Inter", system-ui, sans-serif;
-  }
-
   html {
     scroll-behavior: smooth;
+    accent-color: theme("colors.brand.DEFAULT");
+    scrollbar-color: theme("colors.line") transparent;
+  }
+
+  ::selection {
+    @apply bg-lightblue text-navy;
+  }
+
+  input,
+  textarea {
+    caret-color: theme("colors.brand.DEFAULT");
+  }
+
+  :focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-brand;
   }
 
   body {
@@ -17,7 +28,7 @@
   }
 
   h1, h2, h3, h4 {
-    @apply text-navy font-bold tracking-tight;
+    @apply font-display text-navy font-extrabold tracking-[-0.025em];
     text-wrap: balance;
   }
 
@@ -37,12 +48,12 @@
     @apply leading-[1.7];
   }
 
+  /* Reduced motion: drop travel (lifts, slides, smooth scroll) but keep the
+     color and opacity feedback that tells you a control responded. */
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    *, *::before, *::after {
-      animation-duration: 0.001ms !important;
-      transition-duration: 0.001ms !important;
-    }
+    .animate-fade-up { animation: none; }
+    .btn:hover, .card:hover, .related a:hover, .lift:hover { transform: none; }
   }
 }
 
@@ -52,10 +63,6 @@
   }
   .wrap-narrow {
     @apply mx-auto w-full max-w-3xl px-5 sm:px-8;
-  }
-
-  .eyebrow {
-    @apply mb-3 inline-block text-xs font-bold uppercase tracking-[0.16em] text-brand;
   }
 
   .lead {
@@ -85,10 +92,7 @@
   /* Cards */
   .card {
     @apply overflow-hidden rounded-card border border-line/70 bg-white shadow-card
-           transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] hover:shadow-card-hover;
-  }
-  .card-top {
-    @apply h-1.5 w-full bg-gradient-to-r from-brand via-accent to-lightblue;
+           transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-card-hover;
   }
   .card-body {
     @apply p-6;
@@ -122,7 +126,7 @@
   .callout-warn {
     @apply border-warning/30 bg-warning/5;
   }
-  .callout-warn strong { @apply text-warning; }
+  .callout-warn strong { @apply text-warning-ink; }
 
   .list-check > li {
     @apply relative pl-7 text-ink-soft;
@@ -159,7 +163,7 @@
     @apply text-ink-muted hover:text-brand;
   }
   .crumb .sep {
-    @apply px-2 text-line;
+    @apply px-2 text-ink-muted;
   }
 
   /* Protocol two-column layout */
@@ -169,7 +173,7 @@
   .toc {
     @apply lg:sticky lg:top-32 lg:self-start;
   }
-  .toc h4 {
+  .toc-title {
     @apply mb-3 text-xs font-bold uppercase tracking-[0.14em] text-ink-muted;
   }
   .toc ol {
@@ -248,12 +252,12 @@
            tracking-wide text-white;
   }
   .table-wrap tbody td {
-    @apply border-t border-line/60 px-4 py-3 text-ink-soft;
+    @apply border-t border-line/60 px-4 py-3 text-ink-soft tabular-nums;
   }
   .table-wrap tbody tr:nth-child(even) {
     @apply bg-surface;
   }
-  .table-caption {
+  .table-note {
     @apply mb-6 text-xs italic text-ink-muted;
   }
 
@@ -286,7 +290,7 @@
 
   /* Disclaimer box */
   .disclaimer-box {
-    @apply my-8 rounded-xl border-l-4 border-warning bg-warning/5 p-4 text-sm text-ink-soft;
+    @apply my-8 rounded-xl border border-warning/40 bg-warning/5 p-4 text-sm text-ink-soft;
   }
   .disclaimer-box strong {
     @apply text-ink;

@@ -26,7 +26,7 @@ export default function BlendProtocolPage({ params }: { params: { slug: string }
     <ProtocolArticle
       protocol={p}
       parent={{ label: "Peptide Blend Dosages", href: "/peptide-blend-dosages" }}
-      eyebrow="Peptide-Blend Protocol"
+      kind="Peptide-Blend Protocol"
     />
   );
 }

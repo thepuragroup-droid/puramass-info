@@ -42,7 +42,7 @@ export function Header() {
                   {item.children && <ChevronDown className="h-3.5 w-3.5 opacity-60" />}
                 </Link>
                 {item.children && (
-                  <div className="invisible absolute left-0 top-full min-w-56 translate-y-1 rounded-2xl border border-line/70 bg-white p-2 opacity-0 shadow-card transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                  <div className="invisible absolute left-0 top-full min-w-56 translate-y-1 rounded-2xl border border-line/70 bg-white p-2 opacity-0 shadow-card transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
                     {item.children.map((child) => (
                       <Link
                         key={child.href}
@@ -60,11 +60,11 @@ export function Header() {
 
           <div className="flex items-center gap-3">
             <Link href="/calculator" className="btn btn-primary hidden sm:inline-flex">
-              Dose Calculator
+              Open Calculator
             </Link>
             <button
               className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-navy lg:hidden"
-              aria-label="Menu"
+              aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               onClick={() => setOpen((v) => !v)}
             >
@@ -125,7 +125,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className="btn btn-primary mt-4"
               >
-                Dose Calculator
+                Open Calculator
               </Link>
             </div>
           </nav>

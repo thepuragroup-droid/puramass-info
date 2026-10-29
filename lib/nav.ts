@@ -6,11 +6,11 @@ export const singlePeptides: NavChild[] = [
   { label: "Retatrutide", href: "/single-peptide-dosages/retatrutide-10mg" },
   { label: "Tirzepatide", href: "/single-peptide-dosages/tirzepatide-10mg" },
   { label: "BPC-157", href: "/single-peptide-dosages/bpc-157-10mg" },
-  { label: "TB-500", href: "/single-peptide-dosages/tb-500-10mg" },
-  { label: "MOTS-C", href: "/single-peptide-dosages/mots-c-10mg" },
-  { label: "GHK-Cu", href: "/single-peptide-dosages/ghk-cu-50mg" },
-  { label: "Semax", href: "/single-peptide-dosages/semax-10mg" },
-  { label: "Selank", href: "/single-peptide-dosages/selank-10mg" },
+  { label: "TB-500", href: "/single-peptide-dosages/tb-500-5mg" },
+  { label: "MOTS-C", href: "/single-peptide-dosages/mots-c-5mg" },
+  { label: "GHK-Cu", href: "/single-peptide-dosages/ghk-cu-100mg" },
+  { label: "Semax", href: "/single-peptide-dosages/semax-5mg" },
+  { label: "Selank", href: "/single-peptide-dosages/selank-5mg" },
 ];
 
 export const blends: NavChild[] = [
@@ -18,7 +18,7 @@ export const blends: NavChild[] = [
   { label: "Wolverine (BPC-157 + TB-500)", href: "/peptide-blend-dosages/bpc-157-tb-500-20mg" },
   { label: "GLOW Blend", href: "/peptide-blend-dosages/glow-70mg" },
   { label: "KLOW Blend", href: "/peptide-blend-dosages/klow-80mg" },
-  { label: "CJC-1295 + Ipamorelin", href: "/peptide-blend-dosages/cjc-1295-no-dac-ipamorelin-10mg" },
+  { label: "CJC-1295 (No DAC) + Ipamorelin", href: "/peptide-blend-dosages/cjc-1295-no-dac-ipamorelin-10mg" },
 ];
 
 export const learn: NavChild[] = [
@@ -35,7 +35,8 @@ export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Single Peptides", href: "/single-peptide-dosages", children: singlePeptides },
   { label: "Blends", href: "/peptide-blend-dosages", children: blends },
-  { label: "Learn", href: "/guides/beginners-guide", children: learn },
+  // Hidden for now — restore when the guides and FAQ pages are live.
+  // { label: "Learn", href: "/guides/beginners-guide", children: learn },
   { label: "Calculator", href: "/calculator" },
-  { label: "FAQ", href: "/guides/faq" },
+  // { label: "FAQ", href: "/guides/faq" },
 ];

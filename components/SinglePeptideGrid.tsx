@@ -39,7 +39,6 @@ export function SinglePeptideGrid({ compounds }: { compounds: CompoundCard[] }) 
         <div className="mt-7 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((c) => (
             <div key={c.name} className="card flex flex-col">
-              <div className="card-top" />
               <div className="card-body flex flex-1 flex-col">
                 <span className="tag">{c.tag}</span>
                 <h3>{c.name}</h3>

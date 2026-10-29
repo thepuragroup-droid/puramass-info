@@ -15,17 +15,16 @@ const available = new Set(blendProtocolSlugs);
 export default function BlendsIndex() {
   return (
     <>
-      <nav className="crumb">
+      <nav className="crumb" aria-label="Breadcrumb">
         <div className="wrap py-3 text-sm">
           <Link href="/">Home</Link>
-          <span className="sep">/</span>
+          <span className="sep" aria-hidden="true">/</span>
           <span className="text-ink-soft">Peptide Blend Dosages</span>
         </div>
       </nav>
 
       <section className="bg-gradient-to-b from-lightblue/40 to-white py-14">
         <div className="wrap">
-          <span className="eyebrow">Protocol Library</span>
           <h1>Peptide Blend Dosage Protocols</h1>
           <p className="lead mt-4 max-w-2xl">
             Multi-compound research vials with combined reconstitution math — so each
@@ -41,7 +40,6 @@ export default function BlendsIndex() {
               const isLive = available.has(b.slug);
               return (
                 <div key={b.slug} className="card flex flex-col">
-                  <div className="card-top" />
                   <div className="card-body flex flex-1 flex-col">
                     <span className="tag">{b.tag}</span>
                     <h3>{b.name}</h3>

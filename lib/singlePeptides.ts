@@ -51,6 +51,7 @@ export const singlePeptides: CompoundCard[] = [
     blurb: "Thymosin β4 fragment; tissue remodeling.",
     search: "tb-500 thymosin",
     variants: [
+      { label: "5 mg", slug: "tb-500-5mg" },
       { label: "10 mg", slug: "tb-500-10mg" },
       { label: "20 mg", slug: "tb-500-20mg" },
       { label: "30 mg", slug: "tb-500-30mg" },
@@ -72,6 +73,7 @@ export const singlePeptides: CompoundCard[] = [
     blurb: "Mitochondrial-derived metabolic peptide.",
     search: "mots-c mitochondrial",
     variants: [
+      { label: "5 mg", slug: "mots-c-5mg" },
       { label: "10 mg", slug: "mots-c-10mg" },
       { label: "20 mg", slug: "mots-c-20mg" },
       { label: "40 mg", slug: "mots-c-40mg" },
@@ -124,6 +126,7 @@ export const singlePeptides: CompoundCard[] = [
     blurb: "Heptapeptide; cognitive & BDNF research.",
     search: "semax nootropic",
     variants: [
+      { label: "5 mg", slug: "semax-5mg" },
       { label: "10 mg", slug: "semax-10mg" },
       { label: "20 mg", slug: "semax-20mg" },
       { label: "30 mg", slug: "semax-30mg" },
@@ -135,6 +138,7 @@ export const singlePeptides: CompoundCard[] = [
     blurb: "Tuftsin analog; stress & GABA research.",
     search: "selank anxiolytic",
     variants: [
+      { label: "5 mg", slug: "selank-5mg" },
       { label: "10 mg", slug: "selank-10mg" },
       { label: "20 mg", slug: "selank-20mg" },
       { label: "30 mg", slug: "selank-30mg" },
