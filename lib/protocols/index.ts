@@ -3,10 +3,11 @@ import { retatrutide10mg } from "./retatrutide-10mg";
 import { tirzepatide10mg } from "./tirzepatide-10mg";
 import { bpc15710mg } from "./bpc-157-10mg";
 import { tb5005mg } from "./tb-500-5mg";
+import { motsC5mg } from "./mots-c-5mg";
 
 export type { Protocol } from "./types";
 
-const all: Protocol[] = [retatrutide10mg, tirzepatide10mg, bpc15710mg, tb5005mg];
+const all: Protocol[] = [retatrutide10mg, tirzepatide10mg, bpc15710mg, tb5005mg, motsC5mg];
 
 export const protocols: Record<string, Protocol> = Object.fromEntries(
   all.map((p) => [p.slug, p]),

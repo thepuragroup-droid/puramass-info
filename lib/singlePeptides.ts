@@ -73,6 +73,7 @@ export const singlePeptides: CompoundCard[] = [
     blurb: "Mitochondrial-derived metabolic peptide.",
     search: "mots-c mitochondrial",
     variants: [
+      { label: "5 mg", slug: "mots-c-5mg" },
       { label: "10 mg", slug: "mots-c-10mg" },
       { label: "20 mg", slug: "mots-c-20mg" },
       { label: "40 mg", slug: "mots-c-40mg" },
