@@ -18,7 +18,7 @@ export const blends: NavChild[] = [
   { label: "Wolverine (BPC-157 + TB-500)", href: "/peptide-blend-dosages/bpc-157-tb-500-20mg" },
   { label: "GLOW Blend", href: "/peptide-blend-dosages/glow-70mg" },
   { label: "KLOW Blend", href: "/peptide-blend-dosages/klow-80mg" },
-  { label: "CJC-1295 + Ipamorelin", href: "/peptide-blend-dosages/cjc-1295-no-dac-ipamorelin-10mg" },
+  { label: "CJC-1295 (No DAC) + Ipamorelin", href: "/peptide-blend-dosages/cjc-1295-no-dac-ipamorelin-10mg" },
 ];
 
 export const learn: NavChild[] = [
