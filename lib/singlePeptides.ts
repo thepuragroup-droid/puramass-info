@@ -1,4 +1,9 @@
-export type Variant = { label: string; slug: string };
+export type Variant = {
+  label: string;
+  slug: string;
+  /** Set server-side: true when a protocol page exists for this slug. */
+  live?: boolean;
+};
 export type CompoundCard = {
   name: string;
   tag: string;

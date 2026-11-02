@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, FlaskConical, Syringe, BookOpen } from "lucide-react";
 import { Calculator } from "@/components/Calculator";
+import { isLiveHref, liveLinks } from "@/lib/routes";
 
 type CardData = {
   tag?: string;
@@ -59,6 +60,10 @@ const guides: (CardData & { icon: React.ComponentType<{ className?: string }> })
 ];
 
 export default function HomePage() {
+  const featuredLive = liveLinks(featured);
+  const guidesLive = liveLinks(guides);
+  const basicsHref = "/guides/beginners-guide";
+
   return (
     <>
       {/* HERO + CALCULATOR: the product leads */}
@@ -101,7 +106,7 @@ export default function HomePage() {
             converted to syringe units.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {featured.map((c) => (
+            {featuredLive.map((c) => (
               <ProtocolCard key={c.title} {...c} />
             ))}
           </div>
@@ -126,9 +131,15 @@ export default function HomePage() {
                 material
               </li>
             </ul>
-            <Link href="/guides/beginners-guide" className="btn btn-navy mt-8">
-              Start With the Basics
-            </Link>
+            {isLiveHref(basicsHref) ? (
+              <Link href={basicsHref} className="btn btn-navy mt-8">
+                Start With the Basics
+              </Link>
+            ) : (
+              <Link href="/calculator#how-to-use-the-peptide-calculator" className="btn btn-navy mt-8">
+                See How the Math Works
+              </Link>
+            )}
           </div>
           <div className="grid gap-4">
             <div className="callout callout-tip">
@@ -147,7 +158,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ESSENTIAL GUIDES */}
+      {/* ESSENTIAL GUIDES — hidden until the guide pages exist */}
+      {guidesLive.length > 0 && (
       <section className="py-16 sm:py-20">
         <div className="wrap grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16">
           <div>
@@ -158,7 +170,7 @@ export default function HomePage() {
             </p>
           </div>
           <ul className="divide-y divide-line/70 border-y border-line/70">
-            {guides.map(({ icon: Icon, ...c }) => (
+            {guidesLive.map(({ icon: Icon, ...c }) => (
               <li key={c.title}>
                 <Link
                   href={c.href}
@@ -183,6 +195,7 @@ export default function HomePage() {
           </ul>
         </div>
       </section>
+      )}
     </>
   );
 }

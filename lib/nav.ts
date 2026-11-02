@@ -1,3 +1,5 @@
+import { isLiveHref, liveLinks } from "./routes";
+
 export type NavChild = { label: string; href: string };
 export type NavItem = { label: string; href: string; children?: NavChild[] };
 
@@ -40,3 +42,18 @@ export const mainNav: NavItem[] = [
   { label: "Calculator", href: "/calculator" },
   // { label: "FAQ", href: "/guides/faq" },
 ];
+
+/**
+ * `mainNav` with every link to a page that doesn't exist yet removed. A menu
+ * whose own landing page is missing falls back to its first live child; a menu
+ * with no live children is dropped entirely. Server-only (pulls in protocol data).
+ */
+export function getLiveNav(): NavItem[] {
+  return mainNav.flatMap((item) => {
+    if (!item.children) return isLiveHref(item.href) ? [item] : [];
+    const children = liveLinks(item.children);
+    if (children.length === 0) return [];
+    const href = isLiveHref(item.href) ? item.href : children[0].href;
+    return [{ ...item, href, children }];
+  });
+}

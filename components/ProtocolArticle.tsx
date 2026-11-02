@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { RichText } from "@/components/RichText";
 import type { Protocol, Section } from "@/lib/protocols/types";
+import { liveLinks } from "@/lib/routes";
 
 type Parent = { label: string; href: string };
 
@@ -15,6 +16,12 @@ export function ProtocolArticle({
   kind: string;
 }) {
   const p = protocol;
+  // Drop "related" links to pages that don't exist yet (and the section if none remain).
+  const sections = p.sections.flatMap((s): Section[] => {
+    if (s.type !== "related") return [s];
+    const links = liveLinks(s.links);
+    return links.length > 0 ? [{ ...s, links }] : [];
+  });
   return (
     <>
       <nav className="crumb" aria-label="Breadcrumb">
@@ -49,7 +56,7 @@ export function ProtocolArticle({
           <aside className="toc">
             <p className="toc-title">On This Page</p>
             <ol>
-              {p.sections.map((s) => (
+              {sections.map((s) => (
                 <li key={s.id}>
                   <a href={`#${s.id}`}>{s.heading}</a>
                 </li>
@@ -71,7 +78,7 @@ export function ProtocolArticle({
               </div>
             </div>
 
-            {p.sections.map((s) => (
+            {sections.map((s) => (
               <SectionBlock key={s.id} section={s} disclaimer={p.disclaimer} />
             ))}
           </div>

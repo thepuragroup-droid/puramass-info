@@ -3,10 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
-import { protocolSlugs } from "@/lib/protocols";
 import type { CompoundCard } from "@/lib/singlePeptides";
-
-const available = new Set(protocolSlugs);
 
 export function SinglePeptideGrid({ compounds }: { compounds: CompoundCard[] }) {
   const [query, setQuery] = useState("");
@@ -44,19 +41,21 @@ export function SinglePeptideGrid({ compounds }: { compounds: CompoundCard[] }) 
                 <h3>{c.name}</h3>
                 <p>{c.blurb}</p>
                 <div className="mt-auto flex flex-wrap gap-2">
-                  {c.variants.map((v) => {
-                    const isLive = available.has(v.slug);
-                    return (
-                      <Link
-                        key={v.slug}
-                        href={`/single-peptide-dosages/${v.slug}`}
-                        className={`pill ${isLive ? "" : "opacity-60"}`}
-                        title={isLive ? undefined : "Protocol page coming soon"}
-                      >
+                  {c.variants.map((v) =>
+                    v.live ? (
+                      <Link key={v.slug} href={`/single-peptide-dosages/${v.slug}`} className="pill">
                         {v.label}
                       </Link>
-                    );
-                  })}
+                    ) : (
+                      <span
+                        key={v.slug}
+                        className="pill cursor-default opacity-60"
+                        title="Protocol page coming soon"
+                      >
+                        {v.label}
+                      </span>
+                    ),
+                  )}
                 </div>
               </div>
             </div>
