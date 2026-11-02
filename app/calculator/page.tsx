@@ -9,6 +9,7 @@ import {
   Table,
 } from "lucide-react";
 import { Calculator } from "@/components/Calculator";
+import { liveLinks } from "@/lib/routes";
 
 export const metadata: Metadata = {
   title: "Peptide Dosage & Reconstitution Calculator",
@@ -432,7 +433,7 @@ export default function CalculatorPage() {
           </div>
 
           <div className="mt-10 grid gap-3 sm:grid-cols-2">
-            {footLinks.map(({ label, href, Icon }) => (
+            {liveLinks(footLinks).map(({ label, href, Icon }) => (
               <Link
                 key={href}
                 href={href}

@@ -44,15 +44,18 @@ export default function BlendsIndex() {
                     <span className="tag">{b.tag}</span>
                     <h3>{b.name}</h3>
                     <p className="flex-1">{b.blurb}</p>
-                    <Link
-                      href={`/peptide-blend-dosages/${b.slug}`}
-                      className={`btn-ghost inline-flex items-center gap-1 ${
-                        isLive ? "" : "opacity-60"
-                      }`}
-                      title={isLive ? undefined : "Protocol page coming soon"}
-                    >
-                      View Protocol <ArrowRight className="h-4 w-4" />
-                    </Link>
+                    {isLive ? (
+                      <Link
+                        href={`/peptide-blend-dosages/${b.slug}`}
+                        className="btn-ghost inline-flex items-center gap-1"
+                      >
+                        View Protocol <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    ) : (
+                      <span className="text-sm font-semibold text-ink-muted">
+                        Protocol coming soon
+                      </span>
+                    )}
                   </div>
                 </div>
               );

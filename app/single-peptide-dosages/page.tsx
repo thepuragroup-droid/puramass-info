@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SinglePeptideGrid } from "@/components/SinglePeptideGrid";
 import { singlePeptides } from "@/lib/singlePeptides";
+import { isLiveHref } from "@/lib/routes";
 
 export const metadata: Metadata = {
   title: "Single-Peptide Dosage Protocols",
@@ -10,6 +11,14 @@ export const metadata: Metadata = {
 };
 
 export default function SinglePeptidesIndex() {
+  const compounds = singlePeptides.map((c) => ({
+    ...c,
+    variants: c.variants.map((v) => ({
+      ...v,
+      live: isLiveHref(`/single-peptide-dosages/${v.slug}`),
+    })),
+  }));
+
   return (
     <>
       <nav className="crumb" aria-label="Breadcrumb">
@@ -32,7 +41,7 @@ export default function SinglePeptidesIndex() {
 
       <section className="py-12">
         <div className="wrap">
-          <SinglePeptideGrid compounds={singlePeptides} />
+          <SinglePeptideGrid compounds={compounds} />
         </div>
       </section>
     </>

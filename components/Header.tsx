@@ -5,9 +5,9 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { Brand } from "./Brand";
-import { mainNav } from "@/lib/nav";
+import type { NavItem } from "@/lib/nav";
 
-export function Header() {
+export function Header({ nav }: { nav: NavItem[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -28,7 +28,7 @@ export function Header() {
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-1 lg:flex">
-            {mainNav.map((item) => (
+            {nav.map((item) => (
               <div key={item.label} className="group relative">
                 <Link
                   href={item.href}
@@ -77,7 +77,7 @@ export function Header() {
         {open && (
           <nav className="border-t border-line/70 bg-white lg:hidden">
             <div className="wrap flex flex-col py-3">
-              {mainNav.map((item) => (
+              {nav.map((item) => (
                 <div key={item.label} className="border-b border-line/40 last:border-0">
                   {item.children ? (
                     <>

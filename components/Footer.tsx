@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Brand } from "./Brand";
+import { liveLinks } from "@/lib/routes";
 
 const protocols = [
   { label: "Single-Peptide Dosages", href: "/single-peptide-dosages" },
@@ -29,10 +30,23 @@ const legal = [
 ];
 
 export function Footer() {
+  // Only link to pages that exist; empty columns/rows are dropped.
+  const columns = [
+    { title: "Protocols", links: liveLinks(protocols) },
+    { title: "Learn", links: liveLinks(learn) },
+  ].filter((c) => c.links.length > 0);
+  const legalLinks = liveLinks(legal);
+  const gridCols =
+    columns.length === 2
+      ? "lg:grid-cols-[1.6fr_1fr_1fr_1.3fr]"
+      : columns.length === 1
+        ? "lg:grid-cols-[1.6fr_1fr_1.3fr]"
+        : "lg:grid-cols-[1.6fr_1.3fr]";
+
   return (
     <footer className="border-t border-line/70 bg-surface">
       <div className="wrap py-14">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1.3fr]">
+        <div className={`grid gap-10 md:grid-cols-2 ${gridCols}`}>
           <div>
             <Brand />
             <p className="mt-4 max-w-xs text-sm text-ink-muted leading-relaxed">
@@ -42,8 +56,9 @@ export function Footer() {
             </p>
           </div>
 
-          <FooterCol title="Protocols" links={protocols} />
-          <FooterCol title="Learn" links={learn} />
+          {columns.map((c) => (
+            <FooterCol key={c.title} title={c.title} links={c.links} />
+          ))}
 
           <div>
             <h2 className="text-sm font-bold tracking-normal text-navy">The calculator</h2>
@@ -68,13 +83,15 @@ export function Footer() {
 
         <div className="mt-8 flex flex-col gap-4 border-t border-line/60 pt-6 text-xs text-ink-muted md:flex-row md:items-center md:justify-between">
           <span>© 2026 aminocalculator. All rights reserved.</span>
-          <div className="flex flex-wrap gap-x-4 gap-y-2">
-            {legal.map((l) => (
-              <Link key={l.href} href={l.href} className="hover:text-brand">
-                {l.label}
-              </Link>
-            ))}
-          </div>
+          {legalLinks.length > 0 && (
+            <div className="flex flex-wrap gap-x-4 gap-y-2">
+              {legalLinks.map((l) => (
+                <Link key={l.href} href={l.href} className="hover:text-brand">
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </footer>
